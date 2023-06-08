@@ -38,4 +38,10 @@ public class ProductController {
         return productService.update(id, productRecordDTO);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable UUID id) {
+        productService.delete(id);
+    }
+
 }

@@ -4,8 +4,10 @@ import com.github.youssfbr.springboot.dtos.ProductDTO;
 import com.github.youssfbr.springboot.dtos.ProductRecordDTO;
 import com.github.youssfbr.springboot.entities.Product;
 import com.github.youssfbr.springboot.repositories.IProductRepository;
+import com.github.youssfbr.springboot.services.exceptions.DatabaseException;
 import com.github.youssfbr.springboot.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,17 @@ public class ProductService implements IProductService {
         Product productUpdated = productRepository.save(productToUpdate);
 
         return new ProductDTO(productUpdated);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        try {
+            findProductById(id);
+            productRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation");
+        }
     }
 
     private Product findProductById(UUID id) {
