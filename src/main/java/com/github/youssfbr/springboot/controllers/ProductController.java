@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
@@ -20,6 +21,10 @@ public class ProductController {
     @GetMapping
     public List<ProductDTO> findAll() {
         return productService.findAll();
+    }
+    @GetMapping("/{id}")
+    public ProductDTO findByIdAll(@PathVariable UUID id) {
+        return productService.findById(id);
     }
 
     @PostMapping
