@@ -7,12 +7,19 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private IProductService productService;
     public ProductController(IProductService productService) {
         this.productService = productService;
+    }
+
+    @GetMapping
+    public List<ProductDTO> findAll() {
+        return productService.findAll();
     }
 
     @PostMapping
