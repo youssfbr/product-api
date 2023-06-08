@@ -11,5 +11,6 @@ public interface IProductService {
     List<ProductDTO> findAll();
     ProductDTO findById(UUID id);
     ProductDTO insert(ProductRecordDTO productRecordDTO);
+    ProductDTO update(UUID id, ProductRecordDTO productRecordDTO);
 
 }

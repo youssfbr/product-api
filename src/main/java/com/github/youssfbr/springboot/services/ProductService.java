@@ -44,9 +44,19 @@ public class ProductService implements IProductService {
 
         Product product = new Product();
         BeanUtils.copyProperties(productRecordDTO, product);
-        Product saved = productRepository.save(product);
+        Product productSaved = productRepository.save(product);
 
-        return new ProductDTO(saved);
+        return new ProductDTO(productSaved);
+    }
+
+    @Override
+    @Transactional
+    public ProductDTO update(UUID id, ProductRecordDTO productRecordDTO) {
+        Product productToUpdate = findProductById(id);
+        BeanUtils.copyProperties(productRecordDTO, productToUpdate);
+        Product productUpdated = productRepository.save(productToUpdate);
+
+        return new ProductDTO(productUpdated);
     }
 
     private Product findProductById(UUID id) {

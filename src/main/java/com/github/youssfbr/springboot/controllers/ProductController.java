@@ -33,4 +33,9 @@ public class ProductController {
         return productService.insert(productRecordDTO);
     }
 
+    @PutMapping("/{id}")
+    public ProductDTO update(@PathVariable UUID id, @RequestBody @Valid ProductRecordDTO productRecordDTO) {
+        return productService.update(id, productRecordDTO);
+    }
+
 }
