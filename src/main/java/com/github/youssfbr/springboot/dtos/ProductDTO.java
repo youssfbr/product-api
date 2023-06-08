@@ -2,11 +2,12 @@ package com.github.youssfbr.springboot.dtos;
 
 import com.github.youssfbr.springboot.entities.Product;
 import org.springframework.beans.BeanUtils;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class ProductDTO {
+public class ProductDTO extends RepresentationModel<ProductDTO> {
 
     private UUID id;
     private String name;

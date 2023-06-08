@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -20,11 +23,21 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDTO> findAll() {
-        return productService.findAll();
+        List<ProductDTO> productsList = productService.findAll();
+        if (!productsList.isEmpty()) {
+            for (ProductDTO productDTO : productsList) {
+                UUID id = productDTO.getId();
+                productDTO.add(linkTo(methodOn(ProductController.class).findByIdAll(id)).withSelfRel());
+            }
+        }
+        return productsList;
     }
     @GetMapping("/{id}")
     public ProductDTO findByIdAll(@PathVariable UUID id) {
-        return productService.findById(id);
+        return productService.findById(id)
+                .add(linkTo(methodOn(ProductController.class)
+                        .findAll())
+                        .withSelfRel());
     }
 
     @PostMapping
